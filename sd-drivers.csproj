@@ -12,4 +12,8 @@
     <PackageReference Include="Nefarius.ViGEm.Client" Version="1.19.199" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\neptune-hidapi.net\neptune-hidapi.net.csproj" />
+  </ItemGroup>
+
 </Project>
