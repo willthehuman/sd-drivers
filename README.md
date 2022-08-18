@@ -7,3 +7,5 @@ ie.: You press the A button, you can bind it to Space.
 
 # Thanks to
 https://github.com/mKenfenheuer/hidapi.net
+
+https://github.com/mKenfenheuer/neptune-hidapi.net
