@@ -9,5 +9,6 @@ In other words, this allows you to rebind any button of the steam deck controlle
 - GOOD: (Steam Deck -> Keyboard/Mouse inputs)
 
 # Thanks to
+These are the libraries that I am using and customizing for my project.
 - https://github.com/mKenfenheuer/hidapi.net
 - https://github.com/mKenfenheuer/neptune-hidapi.net
