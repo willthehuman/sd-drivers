@@ -3,9 +3,11 @@ Steam Deck Controller Remapper allows users to rebind controls directly. (No vir
 
 Originally made because it was impossible to play Valorant using other methods (trackpads weren't recognized as mouse)
 
-ie.: You press the A button, you can bind it to Space.
+In other words, this allows you to rebind any button of the steam deck controller to any button of your keyboard/mouse without having to emulate an xbox 360 controller first. 
+
+- BAD: (Steam Deck -> Virtual Xbox 360 Controller -> Emulated Keyboard/Mouse inputs)
+- GOOD: (Steam Deck -> Keyboard/Mouse inputs)
 
 # Thanks to
-https://github.com/mKenfenheuer/hidapi.net
-
-https://github.com/mKenfenheuer/neptune-hidapi.net
+- https://github.com/mKenfenheuer/hidapi.net
+- https://github.com/mKenfenheuer/neptune-hidapi.net
