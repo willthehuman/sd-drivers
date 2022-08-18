@@ -13,10 +13,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\neptune-hidapi.net\neptune-hidapi.net.csproj">
-      <Private>True</Private>
-      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
+    <Folder Include="dll\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="hidapi.net">
+      <HintPath>dll\hidapi.net.dll</HintPath>
+    </Reference>
+    <Reference Include="neptune-hidapi.net">
+      <HintPath>dll\neptune-hidapi.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="hidapi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\hidapi.net.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\Nefarius.ViGEm.Client.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="dll\neptune-hidapi.net.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
