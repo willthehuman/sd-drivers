@@ -16,7 +16,8 @@ namespace sd_drivers
     public partial class App : Application
     {
         static readonly ViGEmClient client = new();
-        static readonly IVirtualGamepad virtualGamepad = client.CreateXbox360Controller();
+        static readonly IVirtualGamepad virtual360Gamepad = client.CreateXbox360Controller();
+        static readonly IVirtualGamepad virtualDS4Gamepad = client.CreateDualShock4Controller();
         public static readonly NeptuneController neptune = new();
         
         public App()
