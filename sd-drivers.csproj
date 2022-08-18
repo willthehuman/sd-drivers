@@ -9,6 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\2804823261_preview_Steam Deck Outline - Mod - Resized.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="resources\2804823261_preview_Steam Deck Outline - Mod - Resized.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Nefarius.ViGEm.Client" Version="1.19.199" />
   </ItemGroup>
 
