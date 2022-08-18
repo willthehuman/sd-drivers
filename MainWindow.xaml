@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sd_drivers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="720" Width="1280">
     <Grid>
+        <Button x:Name="btn_ActivateDriver" Content="Activate driver" HorizontalAlignment="Left" Margin="56,32,0,0" VerticalAlignment="Top" Click="btn_ActivateDriver_Click" Padding="10,10,10,10" FontWeight="Bold" FontFamily="Consolas"/>
+        <Image Source="/2804823261_preview_Steam Deck Outline - Mod - Resized.png" Margin="0,73,0,0"/>
 
     </Grid>
 </Window>
