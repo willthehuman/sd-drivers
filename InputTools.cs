@@ -14,7 +14,7 @@ namespace sd_drivers
 
         public static void KeyPress(KeyCode keyCode)
         {
-            INPUT input = new INPUT
+            INPUT input = new()
             {
                 type = SendInputEventType.InputKeyboard,
                 mkhi = new MOUSEANDKEYBOARDINPUT
@@ -30,7 +30,7 @@ namespace sd_drivers
                 }
             };
 
-            INPUT input2 = new INPUT
+            INPUT input2 = new()
             {
                 type = SendInputEventType.InputKeyboard,
                 mkhi = new MOUSEANDKEYBOARDINPUT
@@ -47,7 +47,7 @@ namespace sd_drivers
             };
 
             INPUT[] inputs = new INPUT[] { input, input2 }; // Combined, it's a keystroke
-            SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
+            _ = SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
         }
     }
 
