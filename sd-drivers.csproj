@@ -10,13 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="resources\2804823261_preview_Steam Deck Outline - Mod - Resized.png" />
+    <None Remove="content\2804823261_preview_Steam Deck Outline - Mod - Resized.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="resources\2804823261_preview_Steam Deck Outline - Mod - Resized.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Content Include="content\2804823261_preview_Steam Deck Outline - Mod - Resized.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
