@@ -6,7 +6,7 @@ Originally made because it was impossible to play Valorant using other methods (
 In other words, this allows you to rebind any button of the steam deck controller to any button of your keyboard/mouse without having to emulate an xbox 360 controller first. 
 
 - BAD: (Steam Deck -> Virtual Xbox 360 Controller -> Emulated Keyboard/Mouse inputs)
-- GOOD: (Steam Deck -> Keyboard/Mouse inputs)
+- GOOD: (Steam Deck -> *SIMULATED* Keyboard/Mouse inputs)
 
 # Thanks to
 These are the libraries that I am using and customizing for my project.
