@@ -12,7 +12,7 @@ namespace sd_drivers
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly NeptuneController neptune = App.neptune;
+        private static readonly NeptuneController neptune = Program.neptune;
         public MainWindow()
         {
             InitializeComponent();

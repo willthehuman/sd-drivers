@@ -6,6 +6,7 @@
     <RootNamespace>sd_drivers</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <StartupObject>sd_drivers.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,17 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="resources\2804823261_preview_Steam Deck Outline - Mod - Resized.png">
+    <EmbeddedResource Include="resources\2804823261_preview_Steam Deck Outline - Mod - Resized.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Nefarius.ViGEm.Client" Version="1.19.199" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="dll\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,9 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="hidapi.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="dll\hidapi.net.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
@@ -47,6 +41,9 @@
     </None>
     <None Update="dll\neptune-hidapi.net.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="hidapi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
