@@ -13,7 +13,7 @@ namespace sd_drivers
         static readonly ViGEmClient client = new();
         static readonly IVirtualGamepad virtual360Gamepad = client.CreateXbox360Controller();
         static readonly IVirtualGamepad virtualDS4Gamepad = client.CreateDualShock4Controller();
-        public static readonly NeptuneController neptune = new();
+        public static NeptuneController neptune = new();
         
         [STAThread]
         static void Main()

@@ -11,15 +11,26 @@
 
   <ItemGroup>
     <None Remove="content\2804823261_preview_Steam Deck Outline - Mod - Resized.png" />
+    <None Remove="content\icons8-hot-springs-96.ico" />
+    <None Remove="content\icons8-hot-springs-96.png" />
+    <None Remove="content\off.ico" />
+    <None Remove="content\on.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="content\2804823261_preview_Steam Deck Outline - Mod - Resized.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="content\off.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="content\on.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Nefarius.ViGEm.Client" Version="1.19.199" />
   </ItemGroup>
 
