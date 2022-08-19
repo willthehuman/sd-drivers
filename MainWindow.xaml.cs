@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +15,31 @@ namespace sd_drivers
     /// </summary>
     public partial class MainWindow : Window
     {
-        TaskbarIcon tbi = new();
-        NeptuneController neptune = ((App)Application.Current).Neptune();
+        readonly TaskbarIcon tbi = new();
+        readonly NeptuneController neptune = new();
         public MainWindow()
         {
             InitializeComponent();
             SetTaskbarIcon();
+            neptune.OnControllerInputReceived += Neptune_OnControllerInputReceived;
+            neptune.LizardButtonsEnabled = false;
+            neptune.LizardMouseEnabled = true; //Keep the trackpad as a real mouse
         }
 
+        private Task Neptune_OnControllerInputReceived(NeptuneControllerInputEventArgs arg)
+        {
+            UpdateUI(arg.State);
+            return Task.CompletedTask;
+        }
+
+        private void UpdateUI(NeptuneControllerInputState state)
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                y_button_state.Content = state.ButtonState[NeptuneControllerButton.BtnY];
+            });
+        }
+        
         private void SetTaskbarIcon()
         {
             var icon = neptune.isActive() ? "content\\on.ico" : "content\\off.ico";

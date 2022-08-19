@@ -15,16 +15,6 @@ namespace sd_drivers
     /// </summary>
     public partial class App : Application
     {
-        private readonly NeptuneController neptune = new();
-        App()
-        {
-            neptune.OnControllerInputReceived += NeptuneInputInterpreter.Neptune_OnControllerInputReceived;
-            neptune.LizardButtonsEnabled = false;
-            neptune.LizardMouseEnabled = true; //Keep the trackpad as a real mouse
-        }
-        public NeptuneController Neptune()
-        {
-            return neptune;
-        }
+
     }
 }

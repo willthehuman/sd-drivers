@@ -78,7 +78,7 @@ namespace sd_drivers
                     }
                 }
             };
-            INPUT[] inputs = new INPUT[] { input, input2 }; // Combined, it's a keystroke
+            INPUT[] inputs = new INPUT[] { input }; // Combined, it's a keystroke
             _ = SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
         }
 
