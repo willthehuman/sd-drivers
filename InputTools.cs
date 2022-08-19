@@ -49,11 +49,46 @@ namespace sd_drivers
             INPUT[] inputs = new INPUT[] { input, input2 }; // Combined, it's a keystroke
             _ = SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
         }
+
+        public static void MouseAction(MouseEventFlags flag)
+        {
+            INPUT input = new()
+            {
+                type = SendInputEventType.InputMouse,
+                mkhi = new MOUSEANDKEYBOARDINPUT
+                {
+                    mi = new MOUSEINPUT
+                    {
+                        dx = 0,
+                        dy = 0,
+                        dwFlags = flag
+                    }
+                }
+            };
+            INPUT input2 = new()
+            {
+                type = SendInputEventType.InputMouse,
+                mkhi = new MOUSEANDKEYBOARDINPUT
+                {
+                    mi = new MOUSEINPUT
+                    {
+                        dx = 0,
+                        dy = 0,
+                        dwFlags = MouseEventFlags.LeftUp
+                    }
+                }
+            };
+            INPUT[] inputs = new INPUT[] { input, input2 }; // Combined, it's a keystroke
+            _ = SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
+        }
+
     }
 
     //https://www.chriswirz.com/software/using-the-windows-api-to-simulate-keyboard-input-in-c-sharp
 
-    public enum KeyCode : ushort
+
+
+public enum KeyCode : ushort
     {
         #region Media
         MEDIA_NEXT_TRACK = 0xb0,

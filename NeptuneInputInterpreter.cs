@@ -22,6 +22,12 @@ namespace sd_drivers
             //    Debug.WriteLine($"{axis}: {arg.State.AxesState[axis]}      ");
             //}
             Debug.WriteLine(((App)Application.Current).Neptune().isActive());
+            Debug.WriteLine(arg.State.AxesState[NeptuneControllerAxis.R2]);
+
+            if (arg.State.AxesState[NeptuneControllerAxis.R2] == 32767)
+            {
+                InputTools.MouseAction(MouseEventFlags.LeftDown);
+            }
 
             return Task.CompletedTask;
         }
