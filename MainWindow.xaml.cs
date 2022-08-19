@@ -44,7 +44,6 @@ namespace sd_drivers
                 this.btn_b.Visibility = state.ButtonState[NeptuneControllerButton.BtnB] ? Visibility.Visible : Visibility.Hidden;
                 this.btn_x.Visibility = state.ButtonState[NeptuneControllerButton.BtnX] ? Visibility.Visible : Visibility.Hidden;
                 this.btn_y.Visibility = state.ButtonState[NeptuneControllerButton.BtnY] ? Visibility.Visible : Visibility.Hidden;
-                //y_button_state.Content = state.ButtonState[NeptuneControllerButton.BtnY];
             });
         }
         
@@ -62,6 +61,7 @@ namespace sd_drivers
             if (neptune.isActive())
             {
                 neptune.Close();
+                InitUI();
                 button.Content = "Activate Driver";
             }
             else
