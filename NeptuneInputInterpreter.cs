@@ -12,14 +12,16 @@ namespace sd_drivers
     {
         public static Task Neptune_OnControllerInputReceived(NeptuneControllerInputEventArgs arg)
         {
-            foreach (var btn in arg.State.ButtonState.Buttons)
-            {
-                Debug.WriteLine($"{btn}: {arg.State.ButtonState[btn]}      ");
-            }
-            foreach (var axis in arg.State.AxesState.Axes)
-            {
-                Debug.WriteLine($"{axis}: {arg.State.AxesState[axis]}      ");
-            }
+            //foreach (var btn in arg.State.ButtonState.Buttons)
+            //{
+            //    Debug.WriteLine($"{btn}: {arg.State.ButtonState[btn]}      ");
+            //}
+            //foreach (var axis in arg.State.AxesState.Axes)
+            //{
+            //    Debug.WriteLine($"{axis}: {arg.State.AxesState[axis]}      ");
+            //}
+            Debug.WriteLine(App.neptune.isActive());
+
             return Task.CompletedTask;
         }
     }
