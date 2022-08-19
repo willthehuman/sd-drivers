@@ -15,6 +15,7 @@ namespace sd_drivers
     public partial class MainWindow : Window
     {
         TaskbarIcon tbi = new();
+        NeptuneController neptune = ((App)Application.Current).Neptune();
         public MainWindow()
         {
             InitializeComponent();
@@ -23,23 +24,23 @@ namespace sd_drivers
 
         private void SetTaskbarIcon()
         {
-            var icon = Program.neptune.isActive() ? "content\\on.ico" : "content\\off.ico";
+            var icon = neptune.isActive() ? "content\\on.ico" : "content\\off.ico";
             tbi.Icon = new System.Drawing.Icon(icon, new System.Drawing.Size(96, 96));
-            tbi.ToolTipText = Program.neptune.isActive() ? "Active" : "Unactive";
+            tbi.ToolTipText = neptune.isActive() ? "Active" : "Unactive";
         }
 
         private void btn_ActivateDriver_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
 
-            if (Program.neptune.isActive())
+            if (neptune.isActive())
             {
-                Program.neptune.Close();
+                neptune.Close();
                 button.Content = "Activate Driver";
             }
             else
             {
-                Program.neptune.Open();
+                neptune.Open();
                 button.Content = "Deactivate Driver";
             }
 

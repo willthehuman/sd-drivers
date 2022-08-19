@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using neptune_hidapi.net;
 
 namespace sd_drivers
@@ -20,7 +21,7 @@ namespace sd_drivers
             //{
             //    Debug.WriteLine($"{axis}: {arg.State.AxesState[axis]}      ");
             //}
-            Debug.WriteLine(App.neptune.isActive());
+            Debug.WriteLine(((App)Application.Current).Neptune().isActive());
 
             return Task.CompletedTask;
         }

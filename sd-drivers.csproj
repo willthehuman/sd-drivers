@@ -6,7 +6,7 @@
     <RootNamespace>sd_drivers</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <StartupObject>sd_drivers.Program</StartupObject>
+    <StartupObject>sd_drivers.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
