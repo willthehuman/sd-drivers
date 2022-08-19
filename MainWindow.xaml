@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sd_drivers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280">
+        Title="MainWindow" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B">
     <Grid>
         <Button x:Name="btn_ActivateDriver" Content="Activate driver" HorizontalAlignment="Left" Margin="56,32,0,0" VerticalAlignment="Top" Click="btn_ActivateDriver_Click" Padding="10,10,10,10" FontWeight="Bold" FontFamily="Consolas"/>
         <Image Source="content/2804823261_preview_Steam Deck Outline - Mod - Resized.png" Margin="0,73,0,0"/>
-        <Label x:Name="y_button_state" Content="" HorizontalAlignment="Left" Margin="657,42,0,0" VerticalAlignment="Top"/>
+        <Ellipse Height="42" Stroke="#FF0061FF" Width="42" StrokeThickness="2" Margin="1115,182,123,480" Stretch="UniformToFill"/>
 
     </Grid>
 </Window>

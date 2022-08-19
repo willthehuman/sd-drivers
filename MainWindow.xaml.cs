@@ -36,7 +36,7 @@ namespace sd_drivers
         {
             Application.Current.Dispatcher.Invoke(delegate
             {
-                y_button_state.Content = state.ButtonState[NeptuneControllerButton.BtnY];
+                //y_button_state.Content = state.ButtonState[NeptuneControllerButton.BtnY];
             });
         }
         
