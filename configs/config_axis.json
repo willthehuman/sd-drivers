@@ -1,3 +1,10 @@
 {
-  "L2": 2
+  "LeftStickY": {
+    "Item1": 87,
+    "Item2": 83
+  },
+  "LeftStickX": {
+    "Item1": 65,
+    "Item2": 68
+  }
 }

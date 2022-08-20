@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace sd_drivers
         List<State> inputStates = new();
 
         static Dictionary<NeptuneControllerButton, VirtualKeyCode> ButtonsToKeyCodes = new();
-        static Dictionary<NeptuneControllerAxis, VirtualKeyCode> AxisToKeyCodes = new();
+        static Dictionary<NeptuneControllerAxis, Tuple<VirtualKeyCode, VirtualKeyCode>> AxisToKeyCodes = new();
 
         static List<NeptuneControllerButton> SpammableButtons = new();
         static List<NeptuneControllerAxis> SpammableAxis = new();
@@ -35,7 +36,8 @@ namespace sd_drivers
             InitializeComponent();
             SetTaskbarIcon();
 
-            //GenerateJson();
+            //GenerateJsonFromEnum();
+            //GenerateJsonFromDict();
 
             InitUI();
             InitDictionary();
@@ -62,7 +64,7 @@ namespace sd_drivers
             AxisToKeyCodes.Clear();
             fileName = "configs/config_axis.json";
             jsonString = File.ReadAllText(fileName);
-            AxisToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerAxis, VirtualKeyCode>>(jsonString)!;
+            AxisToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerAxis, Tuple<VirtualKeyCode, VirtualKeyCode> >>(jsonString)!;
         }
 
         private void InitSpammables()
@@ -145,25 +147,49 @@ namespace sd_drivers
                 if (input is AxisState axisState)
                 {
                     var axe = (AxisState)input;
-                    if (axe.isPressed && state.AxesState[axe.Axis] > Thresholds[axe.Axis] && !axe.isSpammable)
+                    if (axe.isPressed && Math.Abs(state.AxesState[axe.Axis]) >= Thresholds[axe.Axis] && !axe.isSpammable)
                     {
                         axe.wasTriggeredAndIsStillHeld = true;
                     }
 
-                    if (axe.isPressed && !(state.AxesState[axe.Axis] > Thresholds[axe.Axis]) && !axe.isSpammable)
+                    if (axe.isPressed && !(Math.Abs(state.AxesState[axe.Axis]) >= Thresholds[axe.Axis]) && !axe.isSpammable)
                     {
                         axe.wasTriggeredAndIsStillHeld = false;
                     }
 
-                    if (axe.isPressed && !(state.AxesState[axe.Axis] > Thresholds[axe.Axis]) && axe.isSpammable)
+                    if (axe.isPressed && !(Math.Abs(state.AxesState[axe.Axis]) >= Thresholds[axe.Axis]) && axe.isSpammable)
                     {
                         spammableInputsToDeactivate.Add(axe);
                     }
                 }
             }
 
-            inputStates.Where(x => x.GetType() == typeof(ButtonState)).ToList().ForEach(x => x.isPressed = state.ButtonState[((ButtonState)x).Button]);
-            inputStates.Where(x => x.GetType() == typeof(AxisState)).ToList().ForEach(x => x.isPressed = state.AxesState[((AxisState)x).Axis] > Thresholds[((AxisState)x).Axis]);
+            inputStates
+                .Where(x => x.GetType() == typeof(ButtonState)).ToList()
+                .ForEach(x => x.isPressed = state.ButtonState[((ButtonState)x).Button]);
+
+            inputStates
+                .Where(x => x.GetType() == typeof(AxisState)).ToList()
+                .ForEach(x => x.isPressed = Math.Abs(state.AxesState[((AxisState)x).Axis]) >= Thresholds[((AxisState)x).Axis]);
+
+            foreach(var input in inputStates.Where(x => x.isPressed && x.GetType() == typeof(AxisState) && ((AxisState)x).NegativeKey != VirtualKeyCode.None))
+            {
+                var axe = (AxisState)input;
+                if (Math.Sign(state.AxesState[axe.Axis]) == -1)
+                {
+                    inputStates
+                        .Where(x => x.isPressed && x.GetType() == typeof(AxisState))
+                        .Where(x => ((AxisState)x).Axis == axe.Axis)
+                        .Single().Key = axe.NegativeKey;
+                }
+                if(Math.Sign(state.AxesState[axe.Axis]) == 1)
+                {
+                    inputStates
+                        .Where(x => x.isPressed && x.GetType() == typeof(AxisState))
+                        .Where(x => ((AxisState)x).Axis == axe.Axis)
+                        .Single().Key = axe.PositiveKey;
+                }
+            }
 
             KeyboardInputGenerator.KeyDown(inputStates.Where(x => x.isPressed && !x.wasTriggeredAndIsStillHeld).Select(x => x.Key).ToArray());
             KeyboardInputGenerator.KeyUp(inputStates.Where(x => x.isPressed && !x.isSpammable).Select(x => x.Key).ToArray());
@@ -171,7 +197,17 @@ namespace sd_drivers
             if (spammableInputsToDeactivate.Count > 0)
             {
                 KeyboardInputGenerator.KeyUp(spammableInputsToDeactivate.Select(x => x.Key).ToArray());
-                spammableInputsToDeactivate.ForEach(x => x.isPressed = false);
+
+                foreach(AxisState input in spammableInputsToDeactivate.Where(x => x.GetType() == typeof(AxisState)).Cast<AxisState>())
+                {
+                    inputStates.Single(x => ((AxisState)x).Axis == input.Axis).isPressed = false;
+                    if (input.NegativeKey != VirtualKeyCode.None)
+                        inputStates.Single(x => x.GetType() == typeof(AxisState) && ((AxisState)x).Axis == input.Axis).Key = VirtualKeyCode.None;
+                }
+                foreach (ButtonState input in spammableInputsToDeactivate.Where(x => x.GetType() == typeof(ButtonState)).Cast<ButtonState>())
+                {
+                    inputStates.Single(x => x.GetType() == typeof(ButtonState) && ((ButtonState)x).Button == input.Button).isPressed = false;
+                }
             }
         }
 
@@ -220,7 +256,7 @@ namespace sd_drivers
             e.Handled = true;
         }
 
-        private void GenerateJson()
+        private void GenerateJsonFromEnum()
         {
             List<string> axisNames = new();
             List<string> axisValues = new();
@@ -245,6 +281,13 @@ namespace sd_drivers
             var content = JsonConvert.SerializeObject(keyValuePairs, Formatting.Indented);
             File.WriteAllText(filename, content);
         }
+        private void GenerateJsonFromDict()
+        {
+            AxisToKeyCodes.Add(NeptuneControllerAxis.LeftStickX, new Tuple<VirtualKeyCode, VirtualKeyCode>(VirtualKeyCode.None, VirtualKeyCode.Numpad0));
+            var filename = "AxisToKeyCodes.json";
+            var content = JsonConvert.SerializeObject(AxisToKeyCodes, Formatting.Indented);
+            File.WriteAllText(filename, content);
+        }
     }
     public class ButtonState : State 
     {
@@ -262,15 +305,19 @@ namespace sd_drivers
     {
         public float activationThreshold;
         public float currentValue;
-        public AxisState(NeptuneControllerAxis axis, VirtualKeyCode key, float activationThreshold, bool isSpammable = false)
+        public AxisState(NeptuneControllerAxis axis, Tuple<VirtualKeyCode, VirtualKeyCode> keys, float activationThreshold, bool isSpammable = false)
         {
             this.Axis = axis;
-            this.Key = key;
+            this.PositiveKey = keys.Item1;
+            this.NegativeKey = keys.Item2;
             this.activationThreshold = activationThreshold;
             this.isSpammable = isSpammable;
         }
 
         public NeptuneControllerAxis Axis { get; set; }
+        public VirtualKeyCode PositiveKey { get; set; }
+        public VirtualKeyCode NegativeKey { get; set; }
+
     }
 
     public abstract class State {
