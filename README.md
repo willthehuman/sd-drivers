@@ -9,7 +9,7 @@ In other words, this allows you to rebind any button of the steam deck controlle
 - GOOD: (Steam Deck -> *SIMULATED* Keyboard/Mouse inputs)
 
 # How to use
-+ Edit config.json, config_axis.json, spammables.json, spammable_axis.json and thresholds.json to your liking. (Please look at keys.json and buttons.json for possible values)
++ Edit config.json, config_axis.json, spammables.json, spammable_axis.json and thresholds.json to your liking. (Please look at buttons.json, axis.json and keys.json inside the content folder for possible values)
 + Launch sd-drivers.exe
 + Activate driver
 
