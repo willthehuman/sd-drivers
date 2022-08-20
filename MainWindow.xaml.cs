@@ -33,6 +33,9 @@ namespace sd_drivers
         {
             InitializeComponent();
             SetTaskbarIcon();
+
+            GenerateJson();
+            
             InitUI();
             InitDictionary();
             InitSpammables();
@@ -172,6 +175,32 @@ namespace sd_drivers
         private void btn_ActivateDriver_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void GenerateJson()
+        {
+            List<string> axisNames = new();
+            List<string> axisValues = new();
+            Dictionary<string, string> keyValuePairs = new();
+
+            foreach (var axis in Enum.GetNames(typeof(NeptuneControllerAxis)))
+            {
+                axisNames.Add(axis);
+            }
+
+            foreach (var axis in Enum.GetValues(typeof(NeptuneControllerAxis)))
+            {
+                axisValues.Add(axis.ToString());
+            }
+
+            for (int i = 0; i < axisNames.Count; i++)
+            {
+                keyValuePairs.Add(axisNames[i], axisValues[i]);
+            }
+
+            var filename = "axis.json";
+            var content = JsonConvert.SerializeObject(keyValuePairs, Formatting.Indented);
+            File.WriteAllText(filename, content);
         }
     }
     public class ButtonState {

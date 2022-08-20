@@ -49,6 +49,15 @@
     <None Update="buttons.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="content\axis.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="content\buttons.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="content\keys.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="dll\hidapi.net.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
