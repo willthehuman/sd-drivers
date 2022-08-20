@@ -8,6 +8,11 @@ In other words, this allows you to rebind any button of the steam deck controlle
 - BAD: (Steam Deck -> Virtual Xbox 360 Controller -> Emulated Keyboard/Mouse inputs)
 - GOOD: (Steam Deck -> *SIMULATED* Keyboard/Mouse inputs)
 
+# How to use
++ Edit config.json and spammables.json to your liking. (Please look at keys.json and buttons.json for possible values)
++ Launch sd-drivers.exe
++ Activate driver
+
 # NeptuneControllerButton (config.json)
 BtnX,
 BtnY,
