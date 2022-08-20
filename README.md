@@ -9,7 +9,7 @@ In other words, this allows you to rebind any button of the steam deck controlle
 - GOOD: (Steam Deck -> *SIMULATED* Keyboard/Mouse inputs)
 
 # How to use
-+ Edit config.json and spammables.json to your liking. (Please look at keys.json and buttons.json for possible values)
++ Edit config.json, config_axis.json, spammables.json, spammable_axis.json and thresholds.json to your liking. (Please look at keys.json and buttons.json for possible values)
 + Launch sd-drivers.exe
 + Activate driver
 
@@ -44,6 +44,30 @@ BtnRStickPress,
 BtnLStickPress,
 BtnRStickTouch,
 BtnLStickTouch
+
+# NeptuneControllerAxis (config_axis.json)
+"LeftStickX": "LeftStickX",
+"LeftStickY": "LeftStickY",
+"RightStickX": "RightStickX",
+"RightStickY": "RightStickY",
+"LeftPadX": "LeftPadX",
+"LeftPadY": "LeftPadY",
+"RightPadX": "RightPadX",
+"RightPadY": "RightPadY",
+"LeftPadPressure": "LeftPadPressure",
+"RightPadPressure": "RightPadPressure",
+"L2": "L2",
+"R2": "R2",
+"GyroAccelX": "GyroAccelX",
+"GyroAccelY": "GyroAccelY",
+"GyroAccelZ": "GyroAccelZ",
+"GyroRoll": "GyroRoll",
+"GyroPitch": "GyroPitch",
+"GyroYaw": "GyroYaw",
+"Q1": "Q1",
+"Q2": "Q2",
+"Q3": "Q3",
+"Q4": "Q4"
 
 # VirtualKeyCode (config.json + spammables.json)
   "None": "0",
