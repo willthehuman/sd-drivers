@@ -24,7 +24,10 @@ namespace sd_drivers
         List<ButtonState> buttons = new();
 
         static Dictionary<NeptuneControllerButton, VirtualKeyCode> ButtonsToKeyCodes = new();
+        static Dictionary<NeptuneControllerAxis, VirtualKeyCode> AxisToKeyCodes = new();
+
         static List<NeptuneControllerButton> SpammableButtons = new();
+        static List<NeptuneControllerAxis> SpammableAxis = new();
 
         public MainWindow()
         {
@@ -32,7 +35,7 @@ namespace sd_drivers
             SetTaskbarIcon();
             InitUI();
             InitDictionary();
-            InitSpammableButtons();
+            InitSpammables();
 
             InitButtons();
 
@@ -43,20 +46,30 @@ namespace sd_drivers
 
         private void InitDictionary()
         {
+            //buttons
             ButtonsToKeyCodes.Clear();
-
             string fileName = "config.json";
             string jsonString = File.ReadAllText(fileName);
             ButtonsToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerButton, VirtualKeyCode>>(jsonString)!;
+
+            //axis (analog inputs like joysticks and triggers)
+            AxisToKeyCodes.Clear();
+            fileName = "config_axis.json";
+            jsonString = File.ReadAllText(fileName);
+            AxisToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerAxis, VirtualKeyCode>>(jsonString)!;
         }
 
-        private void InitSpammableButtons()
+        private void InitSpammables()
         {
             SpammableButtons.Clear();
-
             string fileName = "spammables.json";
             string jsonString = File.ReadAllText(fileName);
             SpammableButtons = JsonConvert.DeserializeObject<List<NeptuneControllerButton>>(jsonString)!;
+
+            SpammableAxis.Clear();
+            fileName = "spammable_axis.json";
+            jsonString = File.ReadAllText(fileName);
+            SpammableAxis = JsonConvert.DeserializeObject<List<NeptuneControllerAxis>>(jsonString)!;
         }
 
         private void InitButtons()
@@ -177,11 +190,21 @@ namespace sd_drivers
         public VirtualKeyCode Key { get; set; }
     }
 
-    public enum State
+    public class AxisState
     {
-        Activated,
-        Deactivated,
-        ToActivate,
-        ToDeactivate
+        public bool isSpammable;
+        public bool wasTriggeredAndIsStillHeld;
+        public bool isPressed;
+        public float activationThreshold;
+        public AxisState(NeptuneControllerAxis axis, VirtualKeyCode key, float activationThreshold, bool isSpammable = false)
+        {
+            this.Axis = axis;
+            this.Key = key;
+            this.activationThreshold = activationThreshold;
+            this.isSpammable = isSpammable;
+        }
+
+        public NeptuneControllerAxis Axis { get; set; }
+        public VirtualKeyCode Key { get; set; }
     }
 }
