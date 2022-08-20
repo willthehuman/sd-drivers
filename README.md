@@ -14,6 +14,7 @@ In other words, this allows you to rebind any button of the steam deck controlle
 + Activate driver
 
 Note: A "spammable" input means that the key will continuously trigger while the corresponding button is held. This is useful for a walking button or a shooting input.
+Note: For some of the axis, a negative value is possible.
 
 # NeptuneControllerButton (config.json)
 BtnX,
@@ -45,7 +46,7 @@ BtnLStickPress,
 BtnRStickTouch,
 BtnLStickTouch
 
-# NeptuneControllerAxis (config_axis.json)
+# NeptuneControllerAxis (config_axis.json + spammable_axis.json)
 "LeftStickX": "LeftStickX",
 "LeftStickY": "LeftStickY",
 "RightStickX": "RightStickX",
