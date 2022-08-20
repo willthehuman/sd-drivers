@@ -200,7 +200,7 @@ namespace sd_drivers
 
                 foreach(AxisState input in spammableInputsToDeactivate.Where(x => x.GetType() == typeof(AxisState)).Cast<AxisState>())
                 {
-                    inputStates.Single(x => ((AxisState)x).Axis == input.Axis).isPressed = false;
+                    inputStates.Single(x => x.GetType() == typeof(AxisState) && ((AxisState)x).Axis == input.Axis).isPressed = false;
                     if (input.NegativeKey != VirtualKeyCode.None)
                         inputStates.Single(x => x.GetType() == typeof(AxisState) && ((AxisState)x).Axis == input.Axis).Key = VirtualKeyCode.None;
                 }
