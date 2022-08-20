@@ -21,26 +21,29 @@ namespace sd_drivers
         readonly TaskbarIcon tbi = new();
         readonly NeptuneController neptune = new();
 
-        List<ButtonState> buttons = new();
+        List<State> inputStates = new();
 
         static Dictionary<NeptuneControllerButton, VirtualKeyCode> ButtonsToKeyCodes = new();
         static Dictionary<NeptuneControllerAxis, VirtualKeyCode> AxisToKeyCodes = new();
 
         static List<NeptuneControllerButton> SpammableButtons = new();
         static List<NeptuneControllerAxis> SpammableAxis = new();
+        static Dictionary<NeptuneControllerAxis, float> Thresholds = new();
 
         public MainWindow()
         {
             InitializeComponent();
             SetTaskbarIcon();
 
-            GenerateJson();
-            
+            //GenerateJson();
+
             InitUI();
             InitDictionary();
             InitSpammables();
+            InitThresholds();
 
             InitButtons();
+            InitAxis();
 
             neptune.OnControllerInputReceived += Neptune_OnControllerInputReceived;
             neptune.LizardButtonsEnabled = false;
@@ -51,13 +54,13 @@ namespace sd_drivers
         {
             //buttons
             ButtonsToKeyCodes.Clear();
-            string fileName = "config.json";
+            string fileName = "configs/config.json";
             string jsonString = File.ReadAllText(fileName);
             ButtonsToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerButton, VirtualKeyCode>>(jsonString)!;
 
             //axis (analog inputs like joysticks and triggers)
             AxisToKeyCodes.Clear();
-            fileName = "config_axis.json";
+            fileName = "configs/config_axis.json";
             jsonString = File.ReadAllText(fileName);
             AxisToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerAxis, VirtualKeyCode>>(jsonString)!;
         }
@@ -65,23 +68,39 @@ namespace sd_drivers
         private void InitSpammables()
         {
             SpammableButtons.Clear();
-            string fileName = "spammables.json";
+            string fileName = "configs/spammables.json";
             string jsonString = File.ReadAllText(fileName);
             SpammableButtons = JsonConvert.DeserializeObject<List<NeptuneControllerButton>>(jsonString)!;
 
             SpammableAxis.Clear();
-            fileName = "spammable_axis.json";
+            fileName = "configs/spammable_axis.json";
             jsonString = File.ReadAllText(fileName);
             SpammableAxis = JsonConvert.DeserializeObject<List<NeptuneControllerAxis>>(jsonString)!;
         }
 
+        private void InitThresholds()
+        {
+            Thresholds.Clear();
+            string fileName = "configs/thresholds.json";
+            string jsonString = File.ReadAllText(fileName);
+            Thresholds = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerAxis, float>>(jsonString)!;
+        }
+
         private void InitButtons()
         {
-            buttons.Clear();
-            foreach(NeptuneControllerButton button in Enum.GetValues(typeof(NeptuneControllerButton)))
+            foreach (NeptuneControllerButton button in Enum.GetValues(typeof(NeptuneControllerButton)))
             {
                 if (ButtonsToKeyCodes.ContainsKey(button))
-                    buttons.Add(new ButtonState(button, ButtonsToKeyCodes[button], SpammableButtons.Contains(button)));
+                    inputStates.Add(new ButtonState(button, ButtonsToKeyCodes[button], SpammableButtons.Contains(button)));
+            }
+        }
+
+        private void InitAxis()
+        {
+            foreach (NeptuneControllerAxis axe in Enum.GetValues(typeof(NeptuneControllerAxis)))
+            {
+                if (AxisToKeyCodes.ContainsKey(axe))
+                    inputStates.Add(new AxisState(axe, AxisToKeyCodes[axe], Thresholds[axe], SpammableAxis.Contains(axe)));
             }
         }
 
@@ -100,35 +119,59 @@ namespace sd_drivers
 
         private void TranslateInputs(NeptuneControllerInputState state)
         {
-            List<ButtonState> spammableButtonsToDeactivate = new();
-            
-            foreach (var button in buttons)
+            List<State> spammableInputsToDeactivate = new();
+
+            foreach (var input in inputStates)
             {
-                if (button.isPressed && state.ButtonState[button.Button] && !button.isSpammable)
+                if (input is ButtonState buttonState)
                 {
-                    button.wasTriggeredAndIsStillHeld = true;
-                }
+                    var button = (ButtonState)input;
+                    if (button.isPressed && state.ButtonState[button.Button] && !button.isSpammable)
+                    {
+                        button.wasTriggeredAndIsStillHeld = true;
+                    }
 
-                if(button.isPressed && !state.ButtonState[button.Button] && !button.isSpammable) 
-                {
-                    button.wasTriggeredAndIsStillHeld = false;
-                }
+                    if (button.isPressed && !state.ButtonState[button.Button] && !button.isSpammable)
+                    {
+                        button.wasTriggeredAndIsStillHeld = false;
+                    }
 
-                if (button.isPressed && !state.ButtonState[button.Button] && button.isSpammable)
+                    if (button.isPressed && !state.ButtonState[button.Button] && button.isSpammable)
+                    {
+                        spammableInputsToDeactivate.Add(button);
+                    }
+                }
+                
+                if (input is AxisState axisState)
                 {
-                    spammableButtonsToDeactivate.Add(button);
+                    var axe = (AxisState)input;
+                    if (axe.isPressed && state.AxesState[axe.Axis] > Thresholds[axe.Axis] && !axe.isSpammable)
+                    {
+                        axe.wasTriggeredAndIsStillHeld = true;
+                    }
+
+                    if (axe.isPressed && !(state.AxesState[axe.Axis] > Thresholds[axe.Axis]) && !axe.isSpammable)
+                    {
+                        axe.wasTriggeredAndIsStillHeld = false;
+                    }
+
+                    if (axe.isPressed && !(state.AxesState[axe.Axis] > Thresholds[axe.Axis]) && axe.isSpammable)
+                    {
+                        spammableInputsToDeactivate.Add(axe);
+                    }
                 }
             }
-            
-            buttons.ForEach(x => x.isPressed = state.ButtonState[x.Button]);
 
-            KeyboardInputGenerator.KeyDown(buttons.Where(x => x.isPressed && !x.wasTriggeredAndIsStillHeld).Select(x => x.Key).ToArray());
-            KeyboardInputGenerator.KeyUp(buttons.Where(x => x.isPressed && !x.isSpammable).Select(x => x.Key).ToArray());
-            
-            if (spammableButtonsToDeactivate.Count > 0)
+            inputStates.Where(x => x.GetType() == typeof(ButtonState)).ToList().ForEach(x => x.isPressed = state.ButtonState[((ButtonState)x).Button]);
+            inputStates.Where(x => x.GetType() == typeof(AxisState)).ToList().ForEach(x => x.isPressed = state.AxesState[((AxisState)x).Axis] > Thresholds[((AxisState)x).Axis]);
+
+            KeyboardInputGenerator.KeyDown(inputStates.Where(x => x.isPressed && !x.wasTriggeredAndIsStillHeld).Select(x => x.Key).ToArray());
+            KeyboardInputGenerator.KeyUp(inputStates.Where(x => x.isPressed && !x.isSpammable).Select(x => x.Key).ToArray());
+
+            if (spammableInputsToDeactivate.Count > 0)
             {
-                KeyboardInputGenerator.KeyUp(spammableButtonsToDeactivate.Select(x => x.Key).ToArray());
-                spammableButtonsToDeactivate.ForEach(x => x.isPressed = false);
+                KeyboardInputGenerator.KeyUp(spammableInputsToDeactivate.Select(x => x.Key).ToArray());
+                spammableInputsToDeactivate.ForEach(x => x.isPressed = false);
             }
         }
 
@@ -136,7 +179,7 @@ namespace sd_drivers
         {
             if (Application.Current == null)
                 return;
-            
+
             Application.Current.Dispatcher.Invoke(delegate
             {
                 this.btn_a.Visibility = state.ButtonState[NeptuneControllerButton.BtnA] ? Visibility.Visible : Visibility.Hidden;
@@ -203,11 +246,8 @@ namespace sd_drivers
             File.WriteAllText(filename, content);
         }
     }
-    public class ButtonState {
-       
-        public bool isSpammable;
-        public bool wasTriggeredAndIsStillHeld;
-        public bool isPressed;
+    public class ButtonState : State 
+    {
         public ButtonState(NeptuneControllerButton button, VirtualKeyCode key, bool isSpammable = false)
         {
             this.Button = button;
@@ -216,15 +256,12 @@ namespace sd_drivers
         }
 
         public NeptuneControllerButton Button { get; set; }
-        public VirtualKeyCode Key { get; set; }
     }
 
-    public class AxisState
+    public class AxisState : State
     {
-        public bool isSpammable;
-        public bool wasTriggeredAndIsStillHeld;
-        public bool isPressed;
         public float activationThreshold;
+        public float currentValue;
         public AxisState(NeptuneControllerAxis axis, VirtualKeyCode key, float activationThreshold, bool isSpammable = false)
         {
             this.Axis = axis;
@@ -234,6 +271,13 @@ namespace sd_drivers
         }
 
         public NeptuneControllerAxis Axis { get; set; }
+    }
+
+    public abstract class State {
+        public bool isSpammable;
+        public bool wasTriggeredAndIsStillHeld;
+        public bool isPressed;
+
         public VirtualKeyCode Key { get; set; }
     }
 }
