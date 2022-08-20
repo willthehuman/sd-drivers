@@ -13,6 +13,8 @@ In other words, this allows you to rebind any button of the steam deck controlle
 + Launch sd-drivers.exe
 + Activate driver
 
+Note: A "spammable" input means that the key will continuously trigger while the corresponding button is held. This is useful for a walking button or a shooting input.
+
 # NeptuneControllerButton (config.json)
 BtnX,
 BtnY,
