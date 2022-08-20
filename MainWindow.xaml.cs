@@ -118,6 +118,9 @@ namespace sd_drivers
 
         private void UpdateUI(NeptuneControllerInputState state)
         {
+            if (Application.Current == null)
+                return;
+            
             Application.Current.Dispatcher.Invoke(delegate
             {
                 this.btn_a.Visibility = state.ButtonState[NeptuneControllerButton.BtnA] ? Visibility.Visible : Visibility.Hidden;
