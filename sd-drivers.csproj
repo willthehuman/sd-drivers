@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapplo.Windows.Input" Version="1.0.26" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Nefarius.ViGEm.Client" Version="1.19.199" />
   </ItemGroup>
