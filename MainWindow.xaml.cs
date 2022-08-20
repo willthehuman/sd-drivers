@@ -152,6 +152,11 @@ namespace sd_drivers
 
             SetTaskbarIcon();
         }
+
+        private void btn_ActivateDriver_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
     public class ButtonState {
        

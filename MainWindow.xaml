@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B">
     <Grid>
-        <Button x:Name="btn_ActivateDriver" Content="Activate driver" HorizontalAlignment="Left" Margin="56,32,0,0" VerticalAlignment="Top" Click="btn_ActivateDriver_Click" Padding="10,10,10,10" FontWeight="Bold" FontFamily="Consolas"/>
+        <Button x:Name="btn_ActivateDriver" Content="Activate driver" HorizontalAlignment="Left" Margin="56,32,0,0" VerticalAlignment="Top" Click="btn_ActivateDriver_Click" Padding="10,10,10,10" FontWeight="Bold" FontFamily="Consolas" PreviewKeyDown="btn_ActivateDriver_PreviewKeyDown"/>
         <Canvas x:Name="DeckCanvas" Width="1000" Height="500" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Canvas.Background>
                 <ImageBrush ImageSource="/content/2804823261_preview_Steam Deck Outline - Mod - Resized.png" Stretch="UniformToFill"/>
