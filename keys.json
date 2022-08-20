@@ -1,44 +1,4 @@
-# [WIP] Steam Deck Controller Remapper
-Steam Deck Controller Remapper allows users to rebind controls directly. (No virtual xbox 360 stuff).
-
-Originally made because it was impossible to play Valorant using other methods (trackpads weren't recognized as mouse)
-
-In other words, this allows you to rebind any button of the steam deck controller to any button of your keyboard/mouse without having to emulate an xbox 360 controller first. 
-
-- BAD: (Steam Deck -> Virtual Xbox 360 Controller -> Emulated Keyboard/Mouse inputs)
-- GOOD: (Steam Deck -> *SIMULATED* Keyboard/Mouse inputs)
-
-# NeptuneControllerButton (config.json)
-BtnX,
-BtnY,
-BtnA,
-BtnB,
-BtnMenu,
-BtnOptions,
-BtnSteam,
-BtnQuickAccess,
-BtnDpadUp,
-BtnDpadLeft,
-BtnDpadRight,
-BtnDpadDown,
-BtnL1,
-BtnR1,
-BtnL2,
-BtnR2,
-BtnL4,
-BtnR4,
-BtnL5,
-BtnR5,
-BtnRPadPress,
-BtnLPadPress,
-BtnRPadTouch,
-BtnLPadTouch,
-BtnRStickPress,
-BtnLStickPress,
-BtnRStickTouch,
-BtnLStickTouch
-
-# VirtualKeyCode (config.json + spammables.json)
+{
   "None": "0",
   "Lbutton": "1",
   "Rbutton": "2",
@@ -213,9 +173,4 @@ BtnLStickTouch
   "Noname": "252",
   "Pa1": "253",
   "OemClear": "254"
-		
-
-# Thanks to
-These are the libraries that I am using and customizing for my project.
-- https://github.com/mKenfenheuer/hidapi.net
-- https://github.com/mKenfenheuer/neptune-hidapi.net
+}

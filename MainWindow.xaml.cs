@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using Dapplo.Windows.Input.Enums;
 using Dapplo.Windows.Input.Keyboard;
 using Hardcodet.Wpf.TaskbarNotification;
 using neptune_hidapi.net;
-using static System.Windows.Forms.AxHost;
+using Newtonsoft.Json;
 
 namespace sd_drivers
 {
@@ -33,7 +33,7 @@ namespace sd_drivers
             InitUI();
             InitDictionary();
             InitSpammableButtons();
-            
+
             InitButtons();
 
             neptune.OnControllerInputReceived += Neptune_OnControllerInputReceived;
@@ -43,29 +43,25 @@ namespace sd_drivers
 
         private void InitDictionary()
         {
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnA, VirtualKeyCode.Space);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnB, VirtualKeyCode.LeftControl);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnX, VirtualKeyCode.KeyR);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnY, VirtualKeyCode.KeyQ);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnMenu, VirtualKeyCode.Tab);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnSteam, VirtualKeyCode.LeftWin);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnOptions, VirtualKeyCode.Escape);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnDpadLeft, VirtualKeyCode.Left);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnDpadDown, VirtualKeyCode.Down);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnDpadRight, VirtualKeyCode.Right);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnDpadUp, VirtualKeyCode.Up);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnLPadTouch, VirtualKeyCode.KeyW);
-            ButtonsToKeyCodes.Add(NeptuneControllerButton.BtnR2, VirtualKeyCode.Lbutton);
+            ButtonsToKeyCodes.Clear();
+
+            string fileName = "config.json";
+            string jsonString = File.ReadAllText(fileName);
+            ButtonsToKeyCodes = JsonConvert.DeserializeObject<Dictionary<NeptuneControllerButton, VirtualKeyCode>>(jsonString)!;
         }
 
         private void InitSpammableButtons()
         {
-            SpammableButtons.Add(NeptuneControllerButton.BtnLPadTouch);
-            SpammableButtons.Add(NeptuneControllerButton.BtnR2);
+            SpammableButtons.Clear();
+
+            string fileName = "spammables.json";
+            string jsonString = File.ReadAllText(fileName);
+            SpammableButtons = JsonConvert.DeserializeObject<List<NeptuneControllerButton>>(jsonString)!;
         }
 
         private void InitButtons()
         {
+            buttons.Clear();
             foreach(NeptuneControllerButton button in Enum.GetValues(typeof(NeptuneControllerButton)))
             {
                 if (ButtonsToKeyCodes.ContainsKey(button))

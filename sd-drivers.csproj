@@ -33,6 +33,7 @@
     <PackageReference Include="Dapplo.Windows.Input" Version="1.0.26" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Nefarius.ViGEm.Client" Version="1.19.199" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="buttons.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="dll\hidapi.net.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
@@ -55,6 +59,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="hidapi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="keys.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
