@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Shapes;
 using Dapplo.Windows.Input.Enums;
 using Dapplo.Windows.Input.Keyboard;
@@ -33,7 +34,9 @@ namespace sd_drivers
         public MainWindow()
         {
             InitializeComponent();
+
             SetTaskbarIcon();
+            _tbi.LeftClickCommand = new ToggleDriverCommand(this);
 
             //GenerateJsonFromEnum();
             //GenerateJsonFromDict();
@@ -217,7 +220,7 @@ namespace sd_drivers
                 _tbi.ShowBalloonTip("sd-driver", "Driver is now " + _tbi.ToolTipText, BalloonIcon.Info);
         }
 
-        private void btn_ActivateDriver_Click(object sender, RoutedEventArgs e)
+        public void btn_ActivateDriver_Click(object sender, RoutedEventArgs e)
         {
             var button = (System.Windows.Controls.Button)sender;
 
@@ -323,5 +326,22 @@ namespace sd_drivers
 
         public VirtualKeyCode Key { get; set; }
         public abstract void UpdateState(NeptuneControllerInputState state);
+    }
+
+    public class ToggleDriverCommand : ICommand
+    {
+        MainWindow mainWindow;
+        public ToggleDriverCommand(MainWindow mw) => mainWindow = mw;
+        public void Execute(object parameter)
+        {
+            mainWindow.btn_ActivateDriver_Click(mainWindow.btn_ActivateDriver, null);
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public event EventHandler CanExecuteChanged;
     }
 }
