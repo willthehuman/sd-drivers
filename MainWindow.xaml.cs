@@ -123,8 +123,8 @@ namespace sd_drivers
 
         private void TranslateInputs(NeptuneControllerInputState state)
         {
-            var spammableInputsToDeactivate = GenerateSpammableInputs(state);
-            _inputStates.ForEach(x => x.UpdateState(state));
+            var spammableInputsToDeactivate = GenerateSpammableInputs(ref state);
+            _inputStates.ForEach(x => x.UpdateState(ref state));
 
             KeyboardInputGenerator.KeyDown(_inputStates.Where(x => x.IsPressed && !x.WasTriggeredAndIsStillHeld).Select(x => x.Key).ToArray());
             KeyboardInputGenerator.KeyUp(_inputStates.Where(x => x.IsPressed && !x.IsSpammable).Select(x => x.Key).ToArray());
@@ -144,7 +144,7 @@ namespace sd_drivers
             }
         }
 
-        private List<State> GenerateSpammableInputs(NeptuneControllerInputState state)
+        private List<State> GenerateSpammableInputs(ref NeptuneControllerInputState state)
         {
             List<State> spammableInputsToDeactivate = new();
 
@@ -279,7 +279,7 @@ namespace sd_drivers
 
         public NeptuneControllerButton Button { get; }
 
-        public override void UpdateState(NeptuneControllerInputState state)
+        public override void UpdateState(ref NeptuneControllerInputState state)
         {
             IsPressed = state.ButtonState[Button];
         }
@@ -301,7 +301,7 @@ namespace sd_drivers
         public VirtualKeyCode PositiveKey { get; }
         public VirtualKeyCode NegativeKey { get; }
 
-        public override void UpdateState(NeptuneControllerInputState state)
+        public override void UpdateState(ref NeptuneControllerInputState state)
         {
             IsPressed = Math.Abs(state.AxesState[Axis]) >= threshold;
 
@@ -325,23 +325,17 @@ namespace sd_drivers
         public bool IsPressed;
 
         public VirtualKeyCode Key { get; set; }
-        public abstract void UpdateState(NeptuneControllerInputState state);
+        public abstract void UpdateState(ref NeptuneControllerInputState state);
     }
 
     public class ToggleDriverCommand : ICommand
     {
-        MainWindow mainWindow;
+        readonly MainWindow mainWindow;
         public ToggleDriverCommand(MainWindow mw) => mainWindow = mw;
-        public void Execute(object parameter)
-        {
-            mainWindow.btn_ActivateDriver_Click(mainWindow.btn_ActivateDriver, null);
-        }
+        public void Execute(object parameter) => mainWindow.btn_ActivateDriver_Click(mainWindow.btn_ActivateDriver, null);
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+        public bool CanExecute(object parameter) => true;
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
     }
 }
