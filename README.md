@@ -16,6 +16,14 @@ In other words, this allows you to rebind any button of the steam deck controlle
 Note: A "spammable" input means that the key will continuously trigger while the corresponding button is held. This is useful for a walking button or a shooting input.
 Note: For some of the axis, a negative value is possible.
 
+# In development 
++ UI with visual feedback
++ Modify bindings directly in the UI
++ Bind Steam Deck axis to other axis
++ Key combos
++ Emulate other controllers
++ And much more!!
+
 # NeptuneControllerButton (config.json + spammables.json)
 BtnX,
 BtnY,
