@@ -207,11 +207,14 @@ namespace sd_drivers
             });
         }
 
-        private void SetTaskbarIcon()
+        private void SetTaskbarIcon(bool showBalloon = false)
         {
             var icon = _neptune.isActive() ? "content\\on.ico" : "content\\off.ico";
             _tbi.Icon = new System.Drawing.Icon(icon, new System.Drawing.Size(96, 96));
             _tbi.ToolTipText = _neptune.isActive() ? "Active" : "Inactive";
+
+            if (showBalloon)
+                _tbi.ShowBalloonTip("sd-driver", "Driver is now " + _tbi.ToolTipText, BalloonIcon.Info);
         }
 
         private void btn_ActivateDriver_Click(object sender, RoutedEventArgs e)
@@ -230,7 +233,7 @@ namespace sd_drivers
                 button.Content = "Deactivate Driver";
             }
 
-            SetTaskbarIcon();
+            SetTaskbarIcon(true);
         }
 
         private void btn_ActivateDriver_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
