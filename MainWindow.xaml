@@ -5,17 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sd_drivers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B">
+        Title="sd-drivers by willthehuman" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF2B2B2B">
     <Grid>
         <Button x:Name="btn_ActivateDriver" Content="Activate driver" HorizontalAlignment="Left" Margin="56,32,0,0" VerticalAlignment="Top" Click="btn_ActivateDriver_Click" Padding="10,10,10,10" FontWeight="Bold" FontFamily="Consolas" PreviewKeyDown="btn_ActivateDriver_PreviewKeyDown"/>
+        <Button x:Name="btn_HideWindow" Content="Hide Window" HorizontalAlignment="Right" Margin="56,32,56,0" VerticalAlignment="Top" Padding="10,10,10,10" FontWeight="Bold" FontFamily="Consolas" Click="btn_HideWindow_Click" PreviewKeyDown="btn_HideWindow_PreviewKeyDown" />
+
         <Canvas x:Name="DeckCanvas" Width="1000" Height="500" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Canvas.Background>
                 <ImageBrush ImageSource="/content/2804823261_preview_Steam Deck Outline - Mod - Resized.png" Stretch="UniformToFill"/>
             </Canvas.Background>
-            <Ellipse x:Name="btn_y" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="897" Canvas.Top="79" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Ellipse x:Name="btn_x" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="869" Canvas.Top="107" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Ellipse x:Name="btn_a" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="897" Canvas.Top="135" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Ellipse x:Name="btn_b" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="925" Canvas.Top="107" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Ellipse x:Name="BtnY" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="897" Canvas.Top="79" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Ellipse x:Name="BtnX" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="869" Canvas.Top="107" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Ellipse x:Name="BtnA" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="897" Canvas.Top="135" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Ellipse x:Name="BtnB" Height="32" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Stretch="UniformToFill" Canvas.Left="925" Canvas.Top="107" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Rectangle x:Name="BtnMenu" Height="16" Stroke="#FF0061FF" Width="32" StrokeThickness="2" Canvas.Left="124" Canvas.Top="78" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="7" RadiusX="7"/>
+            <Rectangle x:Name="BtnOption" Height="16" Stroke="#FF0061FF" Width="30" StrokeThickness="2" Canvas.Left="845" Canvas.Top="78" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="7" RadiusX="7"/>
+            <Rectangle x:Name="BtnSteam" Height="21" Stroke="#FF0061FF" Width="50" StrokeThickness="2" Canvas.Left="168" Canvas.Top="311" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="10" RadiusX="10"/>
+            <Rectangle x:Name="BtnQuickAccess" Height="21" Stroke="#FF0061FF" Width="50" StrokeThickness="2" Canvas.Left="782" Canvas.Top="311" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="10" RadiusX="10"/>
+            <Rectangle x:Name="BtnDpadUp" Height="22" Stroke="#FF0061FF" Width="18" StrokeThickness="2" Canvas.Left="80" Canvas.Top="91" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnDpadDown" Height="22" Stroke="#FF0061FF" Width="18" StrokeThickness="2" Canvas.Left="80" Canvas.Top="133" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnDpadRight" Height="18" Stroke="#FF0061FF" Width="22" StrokeThickness="2" Canvas.Left="99" Canvas.Top="114" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnDpadLeft" Height="18" Stroke="#FF0061FF" Width="22" StrokeThickness="2" Canvas.Left="58" Canvas.Top="114" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnL1" Height="22" Stroke="#FF0061FF" Width="100" StrokeThickness="2" Canvas.Left="70" Canvas.Top="30" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnR1" Height="22" Stroke="#FF0061FF" Width="100" StrokeThickness="2" Canvas.Right="70" Canvas.Top="30" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnL2" Height="40" Stroke="#FF0061FF" Width="30" StrokeThickness="2" Canvas.Left="25" Canvas.Top="30" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnR2" Height="40" Stroke="#FF0061FF" Width="30" StrokeThickness="2" Canvas.Right="25" Canvas.Top="30" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Ellipse x:Name="BtnRStickPress" Height="45" Stroke="#FF0061FF" Width="45" StrokeThickness="2" Canvas.Right="156" Canvas.Top="116" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
+            <Ellipse x:Name="BtnLStickPress" Height="45" Stroke="#FF0061FF" Width="45" StrokeThickness="2" Canvas.Left="156" Canvas.Top="116" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
+
         </Canvas>
     </Grid>
 </Window>

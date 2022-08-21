@@ -11,6 +11,7 @@ using Dapplo.Windows.Input.Keyboard;
 using Hardcodet.Wpf.TaskbarNotification;
 using neptune_hidapi.net;
 using Newtonsoft.Json;
+using static System.Windows.Forms.AxHost;
 
 namespace sd_drivers
 {
@@ -110,8 +111,13 @@ namespace sd_drivers
 
         private void InitUi()
         {
-            var collection = DeckCanvas.Children.OfType<Ellipse>().ToList();
-            collection.ForEach(x => x.Visibility = Visibility.Hidden);
+            foreach (FrameworkElement el in DeckCanvas.Children)
+            {
+                if (el.Name.StartsWith("Btn"))
+                {
+                    el.Visibility = Visibility.Hidden;
+                }
+            }
         }
 
         private Task Neptune_OnControllerInputReceived(NeptuneControllerInputEventArgs arg)
@@ -203,10 +209,13 @@ namespace sd_drivers
 
             Application.Current.Dispatcher.Invoke(delegate
             {
-                btn_a.Visibility = state.ButtonState[NeptuneControllerButton.BtnA] ? Visibility.Visible : Visibility.Hidden;
-                btn_b.Visibility = state.ButtonState[NeptuneControllerButton.BtnB] ? Visibility.Visible : Visibility.Hidden;
-                btn_x.Visibility = state.ButtonState[NeptuneControllerButton.BtnX] ? Visibility.Visible : Visibility.Hidden;
-                btn_y.Visibility = state.ButtonState[NeptuneControllerButton.BtnY] ? Visibility.Visible : Visibility.Hidden;
+                foreach(FrameworkElement el in DeckCanvas.Children)
+                {
+                    if (el.Name.StartsWith("Btn"))
+                    {
+                        el.Visibility = state.ButtonState[(NeptuneControllerButton)Enum.Parse(typeof(NeptuneControllerButton), el.Name)] ? Visibility.Visible : Visibility.Hidden;
+                    }
+                }
             });
         }
 
@@ -239,7 +248,7 @@ namespace sd_drivers
             SetTaskbarIcon(true);
         }
 
-        private void btn_ActivateDriver_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void btn_ActivateDriver_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             e.Handled = true;
         }
@@ -266,6 +275,16 @@ namespace sd_drivers
             const string filename = "AxisToKeyCodes.json";
             var content = JsonConvert.SerializeObject(_axisToKeyCodes, Formatting.Indented);
             File.WriteAllText(filename, content);
+        }
+
+        private void btn_HideWindow_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void btn_HideWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
         }
     }
     public class ButtonState : State 
