@@ -120,77 +120,8 @@ namespace sd_drivers
 
         private void TranslateInputs(NeptuneControllerInputState state)
         {
-            List<State> spammableInputsToDeactivate = new();
-
-            foreach (var input in _inputStates)
-            {
-                switch (input)
-                {
-                    case ButtonState buttonState:
-                    {
-                        if (buttonState.IsPressed && state.ButtonState[buttonState.Button] && !buttonState.IsSpammable)
-                        {
-                            buttonState.WasTriggeredAndIsStillHeld = true;
-                        }
-
-                        if (buttonState.IsPressed && !state.ButtonState[buttonState.Button] && !buttonState.IsSpammable)
-                        {
-                            buttonState.WasTriggeredAndIsStillHeld = false;
-                        }
-
-                        if (buttonState.IsPressed && !state.ButtonState[buttonState.Button] && buttonState.IsSpammable)
-                        {
-                            spammableInputsToDeactivate.Add(buttonState);
-                        }
-
-                        break;
-                    }
-                    case AxisState axisState:
-                    {
-                        if (axisState.IsPressed && Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis] && !axisState.IsSpammable)
-                        {
-                            axisState.WasTriggeredAndIsStillHeld = true;
-                        }
-
-                        if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis]) && !axisState.IsSpammable)
-                        {
-                            axisState.WasTriggeredAndIsStillHeld = false;
-                        }
-
-                        if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis]) && axisState.IsSpammable)
-                        {
-                            spammableInputsToDeactivate.Add(axisState);
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            _inputStates
-                .Where(x => x.GetType() == typeof(ButtonState)).ToList()
-                .ForEach(x => x.IsPressed = state.ButtonState[((ButtonState)x).Button]);
-
-            _inputStates
-                .Where(x => x.GetType() == typeof(AxisState)).ToList()
-                .ForEach(x => x.IsPressed = Math.Abs(state.AxesState[((AxisState)x).Axis]) >= _thresholds[((AxisState)x).Axis]);
-
-            foreach(var input in _inputStates.Where(x => x.IsPressed && x.GetType() == typeof(AxisState) && ((AxisState)x).NegativeKey != VirtualKeyCode.None))
-            {
-                var axe = (AxisState)input;
-                if (Math.Sign(state.AxesState[axe.Axis]) == -1)
-                {
-                    _inputStates
-                        .Where(x => x.IsPressed && x.GetType() == typeof(AxisState))
-                        .Single(x => ((AxisState)x).Axis == axe.Axis).Key = axe.NegativeKey;
-                }
-                if(Math.Sign(state.AxesState[axe.Axis]) == 1)
-                {
-                    _inputStates
-                        .Where(x => x.IsPressed && x.GetType() == typeof(AxisState))
-                        .Single(x => ((AxisState)x).Axis == axe.Axis).Key = axe.PositiveKey;
-                }
-            }
+            var spammableInputsToDeactivate = GenerateSpammableInputs(state);
+            _inputStates.ForEach(x => x.UpdateState(state));
 
             KeyboardInputGenerator.KeyDown(_inputStates.Where(x => x.IsPressed && !x.WasTriggeredAndIsStillHeld).Select(x => x.Key).ToArray());
             KeyboardInputGenerator.KeyUp(_inputStates.Where(x => x.IsPressed && !x.IsSpammable).Select(x => x.Key).ToArray());
@@ -208,6 +139,58 @@ namespace sd_drivers
             {
                 _inputStates.Single(x => x.GetType() == typeof(ButtonState) && ((ButtonState)x).Button == input.Button).IsPressed = false;
             }
+        }
+
+        private List<State> GenerateSpammableInputs(NeptuneControllerInputState state)
+        {
+            List<State> spammableInputsToDeactivate = new();
+
+            foreach (var input in _inputStates)
+            {
+                switch (input)
+                {
+                    case ButtonState buttonState:
+                        {
+                            if (buttonState.IsPressed && state.ButtonState[buttonState.Button] && !buttonState.IsSpammable)
+                            {
+                                buttonState.WasTriggeredAndIsStillHeld = true;
+                            }
+
+                            if (buttonState.IsPressed && !state.ButtonState[buttonState.Button] && !buttonState.IsSpammable)
+                            {
+                                buttonState.WasTriggeredAndIsStillHeld = false;
+                            }
+
+                            if (buttonState.IsPressed && !state.ButtonState[buttonState.Button] && buttonState.IsSpammable)
+                            {
+                                spammableInputsToDeactivate.Add(buttonState);
+                            }
+
+                            break;
+                        }
+                    case AxisState axisState:
+                        {
+                            if (axisState.IsPressed && Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis] && !axisState.IsSpammable)
+                            {
+                                axisState.WasTriggeredAndIsStillHeld = true;
+                            }
+
+                            if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis]) && !axisState.IsSpammable)
+                            {
+                                axisState.WasTriggeredAndIsStillHeld = false;
+                            }
+
+                            if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis]) && axisState.IsSpammable)
+                            {
+                                spammableInputsToDeactivate.Add(axisState);
+                            }
+
+                            break;
+                        }
+                }
+            }
+
+            return spammableInputsToDeactivate;
         }
 
         private void UpdateUi(NeptuneControllerInputState state)
@@ -285,26 +268,49 @@ namespace sd_drivers
         {
             Button = button;
             Key = key;
-            this.IsSpammable = isSpammable;
+            IsSpammable = isSpammable;
         }
 
         public NeptuneControllerButton Button { get; }
+
+        public override void UpdateState(NeptuneControllerInputState state)
+        {
+            IsPressed = state.ButtonState[Button];
+        }
     }
 
     public class AxisState : State
     {
-        public AxisState(NeptuneControllerAxis axis, Tuple<VirtualKeyCode, VirtualKeyCode> keys, bool isSpammable = false)
+        private readonly float threshold;
+        public AxisState(NeptuneControllerAxis axis, Tuple<VirtualKeyCode, VirtualKeyCode> keys, float threshold, bool isSpammable = false)
         {
             Axis = axis;
             PositiveKey = keys.Item1;
             NegativeKey = keys.Item2;
-            this.IsSpammable = isSpammable;
+            IsSpammable = isSpammable;
+            this.threshold = threshold;
         }
 
         public NeptuneControllerAxis Axis { get; }
         public VirtualKeyCode PositiveKey { get; }
         public VirtualKeyCode NegativeKey { get; }
 
+        public override void UpdateState(NeptuneControllerInputState state)
+        {
+            IsPressed = Math.Abs(state.AxesState[Axis]) >= threshold;
+
+            if(IsPressed && NegativeKey != VirtualKeyCode.None)
+            {
+                if (Math.Sign(state.AxesState[Axis]) == -1)
+                {
+                    Key = NegativeKey;
+                }
+                else if (Math.Sign(state.AxesState[Axis]) == 1)
+                {
+                    Key = PositiveKey;
+                }
+            }
+        }
     }
 
     public abstract class State {
@@ -313,5 +319,6 @@ namespace sd_drivers
         public bool IsPressed;
 
         public VirtualKeyCode Key { get; set; }
+        public abstract void UpdateState(NeptuneControllerInputState state);
     }
 }
