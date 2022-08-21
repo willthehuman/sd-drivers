@@ -123,7 +123,7 @@ namespace sd_drivers
 
         private void TranslateInputs(NeptuneControllerInputState state)
         {
-            var spammableInputsToDeactivate = GenerateSpammableInputs(ref state);
+            var spammableInputsToDeactivate = GenerateSpammableInputsToDeactivate(ref state);
             _inputStates.ForEach(x => x.UpdateState(ref state));
 
             KeyboardInputGenerator.KeyDown(_inputStates.Where(x => x.IsPressed && !x.WasTriggeredAndIsStillHeld).Select(x => x.Key).ToArray());
@@ -144,7 +144,7 @@ namespace sd_drivers
             }
         }
 
-        private List<State> GenerateSpammableInputs(ref NeptuneControllerInputState state)
+        private List<State> GenerateSpammableInputsToDeactivate(ref NeptuneControllerInputState state)
         {
             List<State> spammableInputsToDeactivate = new();
 
