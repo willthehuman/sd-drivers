@@ -101,7 +101,7 @@ namespace sd_drivers
             foreach (NeptuneControllerAxis axe in Enum.GetValues(typeof(NeptuneControllerAxis)))
             {
                 if (_axisToKeyCodes.ContainsKey(axe))
-                    _inputStates.Add(new AxisState(axe, _axisToKeyCodes[axe], _spammableAxis.Contains(axe)));
+                    _inputStates.Add(new AxisState(axe, _axisToKeyCodes[axe], _thresholds[axe], _spammableAxis.Contains(axe)));
             }
         }
 
