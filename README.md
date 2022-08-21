@@ -70,7 +70,7 @@ BtnLStickTouch
 "Q3": "Q3",
 "Q4": "Q4"
 
-# VirtualKeyCode (config.json)
+# VirtualKeyCode (config.json + config_axis.json)
   "None": "0",
   "Lbutton": "1",
   "Rbutton": "2",
