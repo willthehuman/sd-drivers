@@ -32,6 +32,16 @@
             <Rectangle x:Name="BtnR2" Height="40" Stroke="#FF0061FF" Width="30" StrokeThickness="2" Canvas.Right="25" Canvas.Top="30" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
             <Ellipse x:Name="BtnRStickPress" Height="45" Stroke="#FF0061FF" Width="45" StrokeThickness="2" Canvas.Right="156" Canvas.Top="116" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
             <Ellipse x:Name="BtnLStickPress" Height="45" Stroke="#FF0061FF" Width="45" StrokeThickness="2" Canvas.Left="156" Canvas.Top="116" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
+            <Ellipse x:Name="BtnLStickTouch" Height="22" Stroke="#FF0061FF" Width="22" StrokeThickness="2" Canvas.Left="168" Canvas.Top="127" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
+            <Ellipse x:Name="BtnRStickTouch" Height="22" Stroke="#FF0061FF" Width="22" StrokeThickness="2" Canvas.Right="168" Canvas.Top="127" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"/>
+            <Rectangle x:Name="BtnL4" Height="30" Stroke="#FF0061FF" Width="40" StrokeThickness="2" Canvas.Left="200" Canvas.Top="20" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnL5" Height="30" Stroke="#FF0061FF" Width="40" StrokeThickness="2" Canvas.Left="250" Canvas.Top="20" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnR4" Height="30" Stroke="#FF0061FF" Width="40" StrokeThickness="2" Canvas.Right="200" Canvas.Top="20" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnR5" Height="30" Stroke="#FF0061FF" Width="40" StrokeThickness="2" Canvas.Right="250" Canvas.Top="20" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="5" RadiusX="5"/>
+            <Rectangle x:Name="BtnLPadPress" Height="100" Stroke="#FF0061FF" Width="100" StrokeThickness="2" Canvas.Left="119" Canvas.Top="192" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="10" RadiusX="10"/>
+            <Rectangle x:Name="BtnRPadPress" Height="100" Stroke="#FF0061FF" Width="100" StrokeThickness="2" Canvas.Right="119" Canvas.Top="192" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="10" RadiusX="10"/>
+            <Rectangle x:Name="BtnLPadTouch" Height="50" Stroke="#FF0061FF" Width="50" StrokeThickness="2" Canvas.Left="144" Canvas.Top="217" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="10" RadiusX="10"/>
+            <Rectangle x:Name="BtnRPadTouch" Height="50" Stroke="#FF0061FF" Width="50" StrokeThickness="2" Canvas.Right="144" Canvas.Top="217" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" RadiusY="10" RadiusX="10"/>
 
         </Canvas>
     </Grid>
