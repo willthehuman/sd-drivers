@@ -5,13 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Shapes;
 using Dapplo.Windows.Input.Enums;
 using Dapplo.Windows.Input.Keyboard;
+using Device.Net;
 using Hardcodet.Wpf.TaskbarNotification;
+using Hid.Net.Windows;
+using hidapi;
+using Microsoft.Extensions.Logging;
 using neptune_hidapi.net;
 using Newtonsoft.Json;
-using static System.Windows.Forms.AxHost;
 
 namespace sd_drivers
 {
@@ -31,6 +33,9 @@ namespace sd_drivers
         private static List<NeptuneControllerButton> _spammableButtons = new();
         private static List<NeptuneControllerAxis> _spammableAxis = new();
         private static Dictionary<NeptuneControllerAxis, float> _thresholds = new();
+
+        private static HidDevice _hidDevice = new(10462, 4613, 64);
+        private static bool _isSteamDeckDeviceDetected;
 
         public MainWindow()
         {
@@ -53,6 +58,22 @@ namespace sd_drivers
             _neptune.OnControllerInputReceived += Neptune_OnControllerInputReceived;
             _neptune.LizardButtonsEnabled = false;
             _neptune.LizardMouseEnabled = true; //Keep the trackpad as a real mouse
+        }
+
+        private static void CheckForDeck()
+        {
+            var loggerFactory = LoggerFactory.Create((builder) =>
+            {
+                _ = builder.SetMinimumLevel(LogLevel.Debug);
+            });
+
+            //Register the factory for creating Hid devices. 
+            var hidFactory =
+                new FilterDeviceDefinition()
+                .CreateWindowsHidDeviceFactory(loggerFactory);
+
+            var deviceDefinitions = (hidFactory.GetConnectedDeviceDefinitionsAsync().Result).ToList();
+            _isSteamDeckDeviceDetected = deviceDefinitions.Any(x => x.VendorId == 10462 && x.ProductId == 4613);
         }
 
         private static void InitDictionary()
@@ -232,6 +253,9 @@ namespace sd_drivers
         public void btn_ActivateDriver_Click(object sender, RoutedEventArgs e)
         {
             var button = (System.Windows.Controls.Button)sender;
+
+            if (!_isSteamDeckDeviceDetected)
+                throw new Exception("This software only works on a Steam Deck!");
 
             if (_neptune.isActive())
             {
