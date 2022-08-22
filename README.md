@@ -270,3 +270,4 @@ From https://www.dapplo.net/documentation/Dapplo.Windows/api/Dapplo.Windows.Inpu
 These are the libraries that I am using and customizing for my project.
 - https://github.com/mKenfenheuer/hidapi.net
 - https://github.com/mKenfenheuer/neptune-hidapi.net
+- https://github.com/dapplo/Dapplo.Windows
