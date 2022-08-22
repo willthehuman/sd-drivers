@@ -64,17 +64,17 @@ namespace sd_drivers
 
         private static void CheckForDeck()
         {
-            var loggerFactory = LoggerFactory.Create((builder) =>
-            {
-                _ = builder.SetMinimumLevel(LogLevel.Debug);
-            });
+            //var loggerFactory = LoggerFactory.Create((builder) =>
+            //{
+            //    _ = builder.SetMinimumLevel(LogLevel.Debug);
+            //});
 
             //Register the factory for creating Hid devices. 
             var hidFactory =
                 new FilterDeviceDefinition()
-                .CreateWindowsHidDeviceFactory(loggerFactory);
+                .CreateWindowsHidDeviceFactory(/*loggerFactory*/);
 
-            var deviceDefinitions = (hidFactory.GetConnectedDeviceDefinitionsAsync().Result).ToList();
+            var deviceDefinitions = hidFactory.GetConnectedDeviceDefinitionsAsync().Result.ToList();
             _isSteamDeckDeviceDetected = deviceDefinitions.Any(x => x.VendorId == 10462 && x.ProductId == 4613);
         }
 
