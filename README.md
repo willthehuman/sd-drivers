@@ -87,6 +87,7 @@ Note: For some of the axis, a negative value is possible.
 |Q4|
 
 # VirtualKeyCode (config.json + config_axis.json)
+From https://www.dapplo.net/documentation/Dapplo.Windows/api/Dapplo.Windows.Input.Enums.VirtualKeyCodes.html
 | Key        | Code           |
 | ------------- |:-------------:|
 |None|0
