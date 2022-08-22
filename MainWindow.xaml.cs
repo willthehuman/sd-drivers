@@ -34,12 +34,14 @@ namespace sd_drivers
         private static List<NeptuneControllerAxis> _spammableAxis = new();
         private static Dictionary<NeptuneControllerAxis, float> _thresholds = new();
 
-        private static HidDevice _hidDevice = new(10462, 4613, 64);
+        private static readonly HidDevice _hidDevice = new(10462, 4613, 64);
         private static bool _isSteamDeckDeviceDetected;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            CheckForDeck();
 
             SetTaskbarIcon();
             _tbi.LeftClickCommand = new ToggleDriverCommand(this);
