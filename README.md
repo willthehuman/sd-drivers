@@ -24,6 +24,9 @@ Note: For some of the axis, a negative value is possible.
 + Emulate other controllers
 + And much more!!
 
+# Known bugs
++ Mouse clicks are triggered using a keyboard command. This is why they don't work in many places. Since my focus was to make it work with valorant, mouse clicks work in valorant (in-game, not menus)
+
 # NeptuneControllerButton (config.json + spammables.json)
 | Possible values for Deck Buttons |
 | ------------- |
