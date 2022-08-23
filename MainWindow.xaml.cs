@@ -202,17 +202,17 @@ namespace sd_drivers
                         }
                     case AxisState axisState:
                         {
-                            if (axisState.IsPressed && Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis] && !axisState.IsSpammable)
+                            if (axisState.IsPressed && Math.Abs(state.AxesState[axisState.Axis]) >= axisState.threshold && !axisState.IsSpammable)
                             {
                                 axisState.WasTriggeredAndIsStillHeld = true;
                             }
 
-                            if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis]) && !axisState.IsSpammable)
+                            if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= axisState.threshold) && !axisState.IsSpammable)
                             {
                                 axisState.WasTriggeredAndIsStillHeld = false;
                             }
 
-                            if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= _thresholds[axisState.Axis]) && axisState.IsSpammable)
+                            if (axisState.IsPressed && !(Math.Abs(state.AxesState[axisState.Axis]) >= axisState.threshold) && axisState.IsSpammable)
                             {
                                 spammableInputsToDeactivate.Add(axisState);
                             }
@@ -332,7 +332,7 @@ namespace sd_drivers
 
     public class AxisState : State
     {
-        private readonly float threshold;
+        public readonly float threshold;
         public AxisState(NeptuneControllerAxis axis, Tuple<VirtualKeyCode, VirtualKeyCode> keys, float threshold, bool isSpammable = false)
         {
             Axis = axis;
