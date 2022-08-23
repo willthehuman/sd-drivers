@@ -28,6 +28,7 @@ Note: For some of the axis, a negative value is possible.
 # Known issues
 + Mouse clicks are triggered using a keyboard command. This is why they don't work in many places. Since my focus was to make it work with valorant, mouse clicks work in valorant (in-game, not menus)
 + Axis (Analog inputs) are still not displayed on the UI
++ The right trackpad can only be used as a mouse because of the lizardbrain mode. Once mouse inputs are separated from keyboard inputs, it will be re-bindable.
 
 # NeptuneControllerButton (config.json + spammables.json)
 | Possible values for Deck Buttons |
