@@ -1069,7 +1069,7 @@ dependencies = [
 [[package]]
 name = "keymapper"
 version = "0.0.1"
-source = "git+https://github.com/willthehuman/keymapper?branch=master#dd171e90e10324dc389a0a30cb6eaae5d79a3796"
+source = "git+https://github.com/willthehuman/keymapper?branch=master#680c793fa69b320ec64be71c9611b5a0204c59e8"
 dependencies = [
  "RustyXML",
  "config",
@@ -1735,6 +1735,7 @@ dependencies = [
  "hidapi",
  "keymapper",
  "mouse_automation",
+ "tokio",
 ]
 
 [[package]]
