@@ -1,3 +1,6 @@
+# I AM CURRENTLY REWRITING FROM THE GROUND UP
+The development is currently continuing in the branch rework. The purpose of this rework is to have more control over the Steam Deck functionalities by using a low-level language (Rust).
+
 # Steam Deck Controller Remapper
 Steam Deck Controller Remapper allows users to rebind controls directly. (No virtual xbox 360 stuff, No Steam).
 
