@@ -20,4 +20,4 @@ It's a matter of time before Valve releases official drivers for Windows. I will
 
 # Thanks to
 These are the libraries that I am using and customizing for my project.
-https://github.com/DGolubets/keymapper
+- https://github.com/willthehuman/keymapper forked from https://github.com/DGolubets/keymapper
